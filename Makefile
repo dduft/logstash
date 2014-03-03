@@ -189,6 +189,7 @@ vendor-gems: | vendor/bundle
 vendor/bundle: | vendor $(JRUBY)
 	@echo "=> Ensuring ruby gems dependencies are in $@..."
 	$(QUIET)USE_JRUBY=1 bin/logstash deps $(QUIET_OUTPUT)
+	$(QUIET)USE_JRUBY=1 bundle install --path vendor/bundle $(QUIET_OUTPUT)
 	@# Purge any junk that fattens our jar without need!
 	@# The riak gem includes previous gems in the 'pkg' dir. :(
 	-$(QUIET)rm -rf $@/jruby/1.9/gems/riak-client-1.0.3/pkg
@@ -269,7 +270,7 @@ build/logstash-$(VERSION)-monolithic.jar:
 
 build/flatgems: | build vendor/bundle
 	mkdir $@
-	for i in $(VENDOR_DIR)/gems/*/lib $(VENDOR_DIR)/gems/*/data; do \
+	for i in $(VENDOR_DIR)/gems/*/lib $(VENDOR_DIR)/gems/*/data $(VENDOR_DIR)/bundler/gems/*/lib; do \
 		rsync -a $$i/ $@/$$(basename $$i) ; \
 	done
 	@# Until I implement something that looks at the 'require_paths' from
@@ -302,7 +303,7 @@ jar-test-and-report:
 flatjar: build/logstash-$(VERSION)-flatjar.jar
 build/jar: | build build/flatgems build/monolith
 	$(QUIET)mkdir build/jar
-	$(QUIET)rsync -a build/flatgems/root/ build/flatgems/lib/ build/monolith/ build/ruby/ patterns build/flatgems/data build/jar/
+	$(QUIET)rsync -a build/flatgems/root/ build/flatgems/lib/ build/monolith/ build/ruby/ patterns es-templates build/flatgems/data build/jar/
 	$(QUIET)(cd lib; rsync -a --delete logstash/certs/ ../build/jar/logstash/certs)
 
 build/logstash-$(VERSION)-flatjar.jar: | build/jar

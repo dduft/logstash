@@ -1,0 +1,32 @@
+#Matching all kind of known Log-Dates
+DATESTAMP_SIG (%{DATESTAMP1}|%{DATESTAMP2}|%{DATESTAMP3})
+
+# '2013/10/22 06:31:56' or 'yyyy/MM/dd HH:mm:ss'
+DATESTAMP1 %{YEAR}/%{MONTHNUM}/%{MONTHDAY}\s%{TIME}
+
+# 'Tue Sep 24 14:22:21.031 2013' or 'EEE MMM dd HH:mm:ss.SSS yyyy'
+DATESTAMP2 %{DAY}\s%{MONTH}\s%{MONTHDAY} %{TIME}\s%{YEAR}
+
+# same as DATESTAMP default exept \s+ before TIME
+# '01.02.2013 10:11:12.012' or 'dd.MM.yyyy HH:mm:ss.SSS'
+DATESTAMP3 %{MONTHDAY}.%{MONTHNUM}.%{YEAR}\s+%{TIME}
+
+
+# File_Timestamp
+DATESTAMP_FILE (%{NUMBER}_%{NUMBER}_%{NUMBER}|%{NUMBER}_%{NUMBER})
+
+DATESTAMP_TRIGGER %{NUMBER}_%{NUMBER}
+
+FIVE_OR_SIX_DIGITS ((?<six>[0-9]{6})|(?<five>[0-9]{5}))
+
+
+# Logtypes (not for direct use)
+
+# Matches "bfcdvx" for "/host/logs/bfcdvx/trace/bfcdvx_0000.log"
+LOGTYPE1 \/(.+\/)*((?<type>\w+)_.*)$
+
+# Matches "MaterialMngtClient" for "/host/logs/traces/MaterialMngtClient.758636.log"
+LOGTYPE2 \/(.+\/)*(.*\/)(?<type>(.*))\.([0-9]*)\.(\w+)$
+
+# Matches "AlertService" for "/host/logs/AlertService/log4net.log"
+LOGTYPE3 \/(.+\/)*(?<type>(.*))(\/.*)$
