@@ -12,3 +12,5 @@ group :development do
     gem dep.name, dep.requirement.to_s
   end
 end
+
+gem "filewatch", :git => 'https://github.com/dduft/ruby-filewatch.git'

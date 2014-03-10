@@ -43,7 +43,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "elasticsearch"                    #(Apache 2.0 license)
   gem.add_runtime_dependency "ffi"                              #(LGPL-3 license)
   gem.add_runtime_dependency "ffi-rzmq", ["1.0.0"]              #(MIT license)
-  gem.add_runtime_dependency "filewatch", ["0.5.1"]             #(BSD license)
+  #gem.add_runtime_dependency "filewatch", ["0.5.0"]             #(BSD license)
   gem.add_runtime_dependency "gelfd", ["0.2.0"]                 #(Apache 2.0 license)
   gem.add_runtime_dependency "gelf", ["1.3.2"]                  #(MIT license)
   gem.add_runtime_dependency "gmetric", ["0.1.3"]               #(MIT license)
@@ -77,6 +77,11 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "twitter", "5.0.0.rc.1"            #(MIT license)
   gem.add_runtime_dependency "rsolr"                            #(Apache 2.0 license)
   gem.add_runtime_dependency "edn"                              #(MIT license)
+
+  #Signify-Deps
+  gem.add_runtime_dependency "rubyzip", ["<=0.9.9"]
+  gem.add_runtime_dependency "rubyXL", ["~> 1.2.10"]
+  gem.add_runtime_dependency "spreadsheet", ["~> 0.9.7"]
 
   if RUBY_PLATFORM == 'java'
     gem.platform = RUBY_PLATFORM

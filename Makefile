@@ -189,7 +189,6 @@ vendor-gems: | vendor/bundle
 vendor/bundle: | vendor $(JRUBY)
 	@echo "=> Ensuring ruby gems dependencies are in $@..."
 	$(QUIET)USE_JRUBY=1 bin/logstash deps $(QUIET_OUTPUT)
-	$(QUIET)USE_JRUBY=1 bundle install --path vendor/bundle $(QUIET_OUTPUT)
 	@# Purge any junk that fattens our jar without need!
 	@# The riak gem includes previous gems in the 'pkg' dir. :(
 	-$(QUIET)rm -rf $@/jruby/1.9/gems/riak-client-1.0.3/pkg
