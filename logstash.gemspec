@@ -62,12 +62,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "edn"                              #(MIT license)
 
   #Signify-Deps
-  #gem.add_runtime_dependency "rubyzip", ["<=0.9.9"]
-  #gem.add_runtime_dependency "rubyXL", ["~> 2.4.3"]
-  #gem.add_runtime_dependency "rubyXL", ["~> 1.2.10"]
   gem.add_runtime_dependency "simple_xlsx_reader", ["~> 0.9.8"]
   gem.add_runtime_dependency "axlsx", ["~> 2.0.1"]
-  #gem.add_runtime_dependency "simple_xlsx_writer", ["~> 0.5.3"]
   gem.add_runtime_dependency "spreadsheet", ["~> 0.9.7"]
 
   if RUBY_PLATFORM == 'java'
