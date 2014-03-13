@@ -1,7 +1,6 @@
 require "logstash/outputs/base"
 require "logstash/namespace"
 require "axlsx"
-require "pry"
 
 # A null output. This is useful for testing logstash inputs and filters for
 # performance.
