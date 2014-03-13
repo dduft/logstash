@@ -1,6 +1,7 @@
 require "logstash/outputs/base"
 require "logstash/namespace"
-require "rubyXL"
+require "axlsx"
+require "pry"
 
 # A null output. This is useful for testing logstash inputs and filters for
 # performance.
@@ -9,7 +10,7 @@ class LogStash::Outputs::Xlsx < LogStash::Outputs::Base
   milestone 1
 
   default :codec, "xls"
-  
+
   # The format to use when writing events to the file. This value
   # supports any string and can include %{name} and other dynamic
   # strings.
@@ -18,14 +19,14 @@ class LogStash::Outputs::Xlsx < LogStash::Outputs::Base
   # event will be written as a single line.
   config :message_format, :validate => :string
 
-  # The path to the file to write. Event fields can be used here, 
+  # The path to the file to write. Event fields can be used here,
   # like "/var/log/logstash/%{host}/%{application}"
-  # One may also utilize the path option for date-based log 
+  # One may also utilize the path option for date-based log
   # rotation via the joda time format. This will use the event
   # timestamp.
-  # E.g.: path => "./test-%{+YYYY-MM-dd}.txt" to create 
-  # ./test-2013-05-29.txt 
-  config :path, :validate => :string  
+  # E.g.: path => "./test-%{+YYYY-MM-dd}.txt" to create
+  # ./test-2013-05-29.txt
+  config :path, :validate => :string
 
   public
   def register
@@ -48,20 +49,9 @@ class LogStash::Outputs::Xlsx < LogStash::Outputs::Base
 
 	    wsname = event["wsname"]
 
-      workbook = open(path, wsname)
-      index_worksheet = get_worksheet(workbook, wsname)
-	    if index_worksheet == -1
-        worksheet = RubyXL::Worksheet.new(workbook, wsname)
-        workbook.worksheets << worksheet
-	    else
-	      worksheet = workbook.worksheets[index_worksheet]
-	    end
+      worksheet = get_worksheet(path, wsname)
 
-	    row_index = worksheet.sheet_data.size == 1 && worksheet.sheet_data[0][0].nil? ? 0 : worksheet.sheet_data.size
-
-	    cells.each_with_index do |cell, index|
-        worksheet.add_cell(row_index, index, cell)
-	    end
+      worksheet.add_row cells
     end
   end # def register
 
@@ -71,40 +61,44 @@ class LogStash::Outputs::Xlsx < LogStash::Outputs::Base
 
     if event.include? "tags" and event["tags"].include?("eof")
         flush event['path']
-    end    
+    end
   end # def event
 
   private
-  def open(path, wsname)
+  def open(path)
       return @files[path] if @files.include?(path) and not @files[path].nil?
       @logger.info("Opening file", :path => path)
 
       dir = File.dirname(path)
       if !Dir.exists?(dir)
         @logger.info("Creating directory", :directory => dir)
-        FileUtils.mkdir_p(dir) 
+        FileUtils.mkdir_p(dir)
       end
-      workbook = RubyXL::Workbook.new
-      workbook[0].sheet_name = wsname
-      @files[path] = workbook
+      package = Axlsx::Package.new
+      @files[path] = package
   end
 
   public
   def flush(path)
-    @files.each do |path, workbook|
+    @files.each do |path, package|
       if(File.basename(path) == File.basename(path))
-        workbook.write path
+        package.serialize(path)
       end
-    end    
+    end
   end
 
   private
-  def get_worksheet(workbook, name)
-    workbook.worksheets.each_with_index do |worksheet, index|
-      if worksheet.sheet_name == name
-        return index
+  def get_worksheet(path, wsname)
+    package = open(path)
+
+    worksheet = package.workbook.sheet_by_name(wsname)
+
+    if(worksheet.nil?)
+      package.workbook.add_worksheet(:name => wsname) do |ws|
+        return ws
       end
+    else
+      return worksheet
     end
-    return -1;
   end
 end # class LogStash::Outputs::Xls

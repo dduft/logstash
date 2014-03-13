@@ -5,7 +5,6 @@ pkg/*.rpm
 *.class
 .rbx
 Gemfile.lock
-tools/Gemfile.*.lock
 .rbx
 *.tar.gz
 *.jar
