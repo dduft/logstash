@@ -22,3 +22,5 @@ data
 etc/jira-output.conf
 coverage/*
 .VERSION.mk
+
+lib/filewatch/*
