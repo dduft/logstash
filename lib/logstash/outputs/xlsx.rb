@@ -44,7 +44,7 @@ class LogStash::Outputs::Xlsx < LogStash::Outputs::Base
 	      output = event["message"]
 	    end
 
-	    cells = output.split(/ /)
+	    cells = output.split(/;/)
 
 	    wsname = event["wsname"]
 

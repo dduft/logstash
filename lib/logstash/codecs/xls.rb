@@ -31,9 +31,9 @@ class LogStash::Codecs::Xls < LogStash::Codecs::Base
     if data.is_a? Hash
       line = ""
       data[:row].each do |col|
-        line << "#{col} "
+        line << "#{col};"
       end
-      
+
       event = LogStash::Event.new("message" => @converter.convert(line.rstrip))
       event.tag("eof") if data[:eof]
       event["wsname"] = data[:wsname]
@@ -45,5 +45,5 @@ class LogStash::Codecs::Xls < LogStash::Codecs::Base
   public
   def encode(event)
     @on_event.call data
-  end # def encode  
+  end # def encode
 end # class LogStash::Codecs::Plain
