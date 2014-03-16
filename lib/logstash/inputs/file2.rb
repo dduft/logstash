@@ -75,7 +75,7 @@ class LogStash::Inputs::File2 < LogStash::Inputs::Base
   public
   def register
     require "addressable/uri"
-    require "filewatch/filetail"
+    require "filewatch/ext/filetail"
     require "digest/md5"
     @logger.info("Registering file input", :path => @path)
 
@@ -107,7 +107,7 @@ class LogStash::Inputs::File2 < LogStash::Inputs::Base
 
   public
   def run(queue)
-    @tail = FileWatch::FileTail.new(@tail_config)
+    @tail = FileWatch::Ext::FileTail.new(@tail_config)
     @tail.logger = @logger
     @path.each { |path| @tail.tail(path) }
     hostname = Socket.gethostname

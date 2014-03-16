@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/dduft/ruby-filewatch.git
-  revision: eb855993236d0c54d93a7242e4e6fc36ca30f694
-  specs:
-    filewatch (0.5.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -19,7 +13,7 @@ GEM
       multi_json (>= 1.0.0)
     avl_tree (1.1.3)
     awesome_print (1.2.0)
-    aws-sdk (1.36.0)
+    aws-sdk (1.36.1)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
@@ -69,6 +63,12 @@ GEM
     ffi (1.9.3-java)
     ffi-rzmq (1.0.0)
       ffi
+    filewatch (0.5.1)
+    filewatch-ext (0.1.1)
+      axlsx (~> 2.0.1)
+      filewatch (~> 0.5.1)
+      simple_xlsx_reader (~> 0.9.8)
+      spreadsheet (~> 0.9.7)
     ftw (0.0.39)
       addressable
       backports (>= 2.6.2)
@@ -122,7 +122,7 @@ GEM
       json (>= 1.6, < 1.9.0)
     jls-grok (0.10.12)
       cabin (>= 0.6.0)
-    jls-lumberjack (0.0.19)
+    jls-lumberjack (0.0.20)
     jruby-elasticsearch (0.0.17)
     jruby-httpclient (1.1.1-java)
     jruby-openssl (0.8.7)
@@ -150,7 +150,7 @@ GEM
       hitimes (~> 1.1)
     mime-types (1.25.1)
     mini_portile (0.5.2)
-    minitest (5.3.0)
+    minitest (5.3.1)
     mocha (1.0.0)
       metaclass (~> 0.0.1)
     mongo (1.9.2)
@@ -183,7 +183,6 @@ GEM
     rack (1.5.2)
     rack-protection (1.5.2)
       rack
-    rake (10.1.1)
     rbnacl (2.0.0)
       ffi
     redis (3.0.7)
@@ -215,8 +214,7 @@ GEM
       tzinfo (>= 0.3.22)
     rumbster (1.1.1)
       mail (= 2.5.3)
-    sass (3.3.0)
-      rake
+    sass (3.3.3)
     sequel (4.8.0)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
@@ -242,7 +240,7 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
-    slop (3.4.7)
+    slop (3.5.0)
     snmp (1.1.1)
     spoon (0.0.4)
       ffi
@@ -274,7 +272,7 @@ GEM
       simple_oauth (~> 0.2.0)
     tzinfo (1.1.0)
       thread_safe (~> 0.1)
-    user_agent_parser (2.1.2)
+    user_agent_parser (2.1.4)
     uuidtools (2.1.4)
     varnish-rb (0.2.0)
       ffi
@@ -288,7 +286,6 @@ DEPENDENCIES
   addressable
   awesome_print
   aws-sdk
-  axlsx (~> 2.0.1)
   beefcake (= 0.3.7)
   bindata (>= 1.5.0)
   bouncy-castle-java (= 1.5.0147)
@@ -302,7 +299,8 @@ DEPENDENCIES
   extlib (= 0.9.16)
   ffi
   ffi-rzmq (= 1.0.0)
-  filewatch!
+  filewatch (= 0.5.1)
+  filewatch-ext (~> 0.1.1)
   ftw (~> 0.0.39)
   gelf (= 1.3.2)
   gelfd (= 0.2.0)
@@ -347,11 +345,9 @@ DEPENDENCIES
   sass
   sequel
   shoulda
-  simple_xlsx_reader (~> 0.9.8)
   sinatra
   snmp
   spoon
-  spreadsheet (~> 0.9.7)
   statsd-ruby (= 1.2.0)
   stud
   twitter (= 5.0.0.rc.1)

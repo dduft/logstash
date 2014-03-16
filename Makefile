@@ -302,7 +302,7 @@ jar-test-and-report:
 flatjar: build/logstash-$(VERSION)-flatjar.jar
 build/jar: | build build/flatgems build/monolith
 	$(QUIET)mkdir build/jar
-	$(QUIET)rsync -a build/flatgems/root/ build/flatgems/lib/ build/monolith/ build/ruby/ patterns es-templates build/flatgems/data build/jar/
+	$(QUIET)rsync -a build/flatgems/root/ build/flatgems/lib/ build/monolith/ build/ruby/ patterns build/flatgems/data build/jar/
 	$(QUIET)(cd lib; rsync -a --delete logstash/certs/ ../build/jar/logstash/certs)
 
 build/logstash-$(VERSION)-flatjar.jar: | build/jar

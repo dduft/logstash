@@ -37,7 +37,7 @@ class LogStash::Codecs::LineEOF < LogStash::Codecs::Base
     lines.each_with_index do |line, index|
       event = LogStash::Event.new("message" => @converter.convert(line))
       #is end of file is reached?
-      event.tag("eof") if index == lines.size - 1 && data.length < 4096
+      event.tag("eof") if index == lines.size - 1 && data.length < 32768
       yield event
     end
   end # def decode
