@@ -68,7 +68,7 @@ class LogStash::Inputs::Xlsx < LogStash::Inputs::Base
   public
   def register
     require "addressable/uri"
-    require "filewatch/xlsxtail"
+    require "filewatch/ext/xlsxtail"
     require "digest/md5"
     require "logstash/codecs/plain"
 
@@ -130,7 +130,7 @@ class LogStash::Inputs::Xlsx < LogStash::Inputs::Base
 
   public
   def run(queue)
-    @tail = FileWatch::XlsxTail.new(@tail_config)
+    @tail = FileWatch::Ext::XlsxTail.new(@tail_config)
     @tail.logger = @logger
     @path.each { |path| @tail.tail(path) }
     hostname = Socket.gethostname
