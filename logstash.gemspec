@@ -79,7 +79,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "edn"                              #(MIT license)
 
   #Signify deps
-  gem.add_runtime_dependency "filewatch-ext", ["~> 0.1.1"]      #(MIT license)
+  gem.add_runtime_dependency "filewatch-ext", ["~> 0.1.2"]      #(MIT license)
 
   if RUBY_PLATFORM == 'java'
     gem.platform = RUBY_PLATFORM

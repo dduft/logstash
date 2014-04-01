@@ -1,5 +1,5 @@
 {
-  "template" : "roche-*",
+  "template" : "package-*",
   "settings" : {
     "index.refresh_interval" : "5s",
     "analysis" : {

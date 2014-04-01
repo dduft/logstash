@@ -1,5 +1,5 @@
 {
-  "template" : "roche-*",
+  "template" : "logstash-*",
   "settings" : {
     "index.refresh_interval" : "5s",
     "analysis" : {
@@ -28,7 +28,15 @@
          }
        } ],
        "properties" : {
-         "@version": { "type": "string", "index": "not_analyzed" }
+         "@version": { "type": "string", "index": "not_analyzed" },
+         "geoip"  : {
+           "type" : "object",
+             "dynamic": true,
+             "path": "full",
+             "properties" : {
+               "location" : { "type" : "geo_point" }
+             }
+         }
        }
     }
   }

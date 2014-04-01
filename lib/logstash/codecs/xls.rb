@@ -20,8 +20,6 @@ class LogStash::Codecs::Xls < LogStash::Codecs::Base
 
   public
   def register
-    require "fileutils" # For mkdir_p
-
     @converter = LogStash::Util::Charset.new(@charset)
     @converter.logger = @logger
   end
