@@ -2,6 +2,7 @@
 require "logstash/namespace"
 require "logstash/outputs/base"
 require "stud/buffer"
+require "socket" # for Socket.gethostname
 
 # This output lets you store logs in Elasticsearch and is the most recommended
 # output for Logstash. If you plan on using the Kibana web interface, you'll
@@ -153,6 +154,11 @@ class LogStash::Outputs::ElasticSearch < LogStash::Outputs::Base
   # not show up as a 'node' in the Elasticsearch cluster. This is useful
   # in situations where you cannot permit connections outbound from the
   # Elasticsearch cluster to this Logstash server.
+  #
+  # The 'http' protocol will use the Elasticsearch REST/HTTP interface to talk
+  # to elasticsearch.
+  #
+  # All protocols will use bulk requests when talking to Elasticsearch.
   #
   # The default `protocol` setting under java/jruby is "node". The default
   # `protocol` on non-java rubies is "http"
@@ -326,6 +332,12 @@ class LogStash::Outputs::ElasticSearch < LogStash::Outputs::Base
     # TODO(sissel): Handle errors. Since bulk requests could mostly succeed
     # (aka partially fail), we need to figure out what documents need to be
     # retried.
+    #
+    # In the worst case, a failing flush (exception) will incur a retry from Stud::Buffer.
   end # def flush
+
+  def teardown
+    buffer_flush(:final => true)
+  end
 
 end # class LogStash::Outputs::Elasticsearch
