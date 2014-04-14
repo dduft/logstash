@@ -30,3 +30,11 @@ LOGTYPE2 \/(.+\/)*(.*\/)(?<type>(.*))\.([0-9]*)\.(\w+)$
 
 # Matches "AlertService" for "/host/logs/AlertService/log4net.log"
 LOGTYPE3 \/(.+\/)*(?<type>(.*))(\/.*)$
+
+
+MESSAGE_HDI %{DATA};%{DATESTAMP_FILE:datetime}
+MESSAGE_ESO %{NUMBER}\s+%{DATESTAMP_SIG:datetime}%{GREEDYDATA}
+MESSAGE_MMX \[%{DATESTAMP_SIG:datetime}\]%{GREEDYDATA}
+MESSAGE_RCC \[%{DATESTAMP_SIG:datetime}\]%{GREEDYDATA}
+MESSAGE_CAN %{NUMBER:offset}\s+%{DATA:nointernal}\s+%{DATA:events}\s+%{GREEDYDATA:logged}
+MESSAGE_IMGLIST %{DATESTAMP_FILE:datetime}
