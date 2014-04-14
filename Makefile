@@ -58,13 +58,13 @@ TESTS=$(wildcard spec/**/*.rb)
 	$(QUIET)echo "MODIFIED=${MODIFIED}" >> $@
 	$(QUIET)if [ -z "${DEV}" ] ; then \
 		if [ "${MODIFIED}" -eq 1 ] ; then \
-			echo "VERSION=${RELEASE}-modified" ; \
+			echo "VERSION=${RELEASE}-sy" ; \
 		else \
 			echo "VERSION=${RELEASE}" ; \
 		fi ; \
 	else \
 		if [ "${MODIFIED}" -eq 1 ] ; then \
-			echo "VERSION=${RELEASE}-${REVISION}-modified" ; \
+			echo "VERSION=${RELEASE}-${REVISION}-sy" ; \
 		else \
 			echo "VERSION=${RELEASE}-${REVISION}" ; \
 		fi ; \
@@ -357,7 +357,7 @@ prepare-tarball: vendor/ua-parser/regexes.yaml
 prepare-tarball:
 	@echo "=> Preparing tarball"
 	$(QUIET)$(MAKE) $(WORKDIR)
-	$(QUIET)rsync -a --relative bin lib spec locales patterns vendor/bundle/jruby vendor/geoip vendor/jar vendor/kibana vendor/ua-parser vendor/collectd LICENSE README.md --exclude 'vendor/bundle/jruby/1.9/cache' --exclude 'vendor/bundle/jruby/1.9/gems/*/doc' --exclude 'vendor/jar/elasticsearch-$(ELASTICSEARCH_VERSION).tar.gz'  $(WORKDIR)
+	$(QUIET)rsync -a --relative bin lib spec locales patterns templates vendor/bundle/jruby vendor/geoip vendor/jar vendor/kibana vendor/ua-parser vendor/collectd LICENSE README.md --exclude 'vendor/bundle/jruby/1.9/cache' --exclude 'vendor/bundle/jruby/1.9/gems/*/doc' --exclude 'vendor/jar/elasticsearch-$(ELASTICSEARCH_VERSION).tar.gz'  $(WORKDIR)
 	$(QUIET)sed -i -e 's/^LOGSTASH_VERSION = .*/LOGSTASH_VERSION = "$(VERSION)"/' $(WORKDIR)/lib/logstash/version.rb
 	$(QUIET)sed -i -e 's/%JRUBY_VERSION%/$(JRUBY_VERSION)/' $(WORKDIR)/bin/logstash.bat
 
