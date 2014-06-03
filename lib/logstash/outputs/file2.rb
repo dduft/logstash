@@ -29,14 +29,14 @@ class LogStash::Outputs::File2 < LogStash::Outputs::Base
     # Gzip output stream
     config :gzip, :validate => :boolean, :default => false
 
-    # The path to the file to write. Event fields can be used here, 
+    # The path to the file to write. Event fields can be used here,
     # like "/var/log/logstash/%{host}/%{application}"
-    # One may also utilize the path option for date-based log 
+    # One may also utilize the path option for date-based log
     # rotation via the joda time format. This will use the event
     # timestamp.
-    # E.g.: path => "./test-%{+YYYY-MM-dd}.txt" to create 
-    # ./test-2013-05-29.txt 
-    config :path, :validate => :string  
+    # E.g.: path => "./test-%{+YYYY-MM-dd}.txt" to create
+    # ./test-2013-05-29.txt
+    config :path, :validate => :string
 
     public
     def register
@@ -62,7 +62,7 @@ class LogStash::Outputs::File2 < LogStash::Outputs::Base
                 output = event.sprintf(@message_format)
             else
                 output = event["message"]
-            end            
+            end
 
             @logger.debug("Writing output to file", :output => output, :path => path) if @logger.debug?
 
@@ -153,7 +153,7 @@ class LogStash::Outputs::File2 < LogStash::Outputs::Base
         dir = File.dirname(path)
         if !Dir.exists?(dir)
             @logger.info("Creating directory", :directory => dir)
-            FileUtils.mkdir_p(dir) 
+            FileUtils.mkdir_p(dir)
         end
 
         # work around a bug opening fifos (bug JRUBY-6280)

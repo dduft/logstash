@@ -47,7 +47,7 @@ class LogStash::Filters::Trigger < LogStash::Filters::Base
     config :trigger_pattern, :validate => :string, :required => true
 
     # Date-format of the triggers, sent from an input e.g. triggeredpackage
-    config :trigger_format, :validate => :string, :required => true    
+    config :trigger_format, :validate => :string, :required => true
 
     # logstash ships by default with a bunch of patterns, so you don't
     # necessarily need to define this yourself unless you are adding additional
@@ -109,7 +109,7 @@ class LogStash::Filters::Trigger < LogStash::Filters::Base
         @triggers = Hash.new { |h,k| h[k] = [] }
         @last_trigger_times = Hash.new { |h,k| h[k] = [] }
 
-        @trigger_cleanup_interval = 10      
+        @trigger_cleanup_interval = 10
     end #def register
 
     public
@@ -122,11 +122,11 @@ class LogStash::Filters::Trigger < LogStash::Filters::Base
         read_triggers(dirname)
 
         @triggers[dirname].each do |trigger|
-            
+
             startTime = trigger[:timestamp]
             startTime -= trigger[:timespan].to_i
 
-            endTime = trigger[:timestamp]   
+            endTime = trigger[:timestamp]
             endTime += trigger[:timespan].to_i
 
             if event.timestamp >= startTime && event.timestamp <= endTime
@@ -134,7 +134,7 @@ class LogStash::Filters::Trigger < LogStash::Filters::Base
                 event[@trigger_attribute] << trigger unless event[@trigger_attribute].include?(trigger)
                 matches += 1
             end
-        end 
+        end
 
         if matches > 0
           filter_matched(event)
@@ -160,7 +160,7 @@ class LogStash::Filters::Trigger < LogStash::Filters::Base
         triggerglob.each do |triggerpath|
             File.readlines(triggerpath).each do |line|
                 set_triggers(dirname, line.strip! || line)
-            end        
+            end
         end
     end
 
@@ -184,19 +184,19 @@ class LogStash::Filters::Trigger < LogStash::Filters::Base
             jtime.getYear, jtime.getMonthOfYear, jtime.getDayOfMonth,
             jtime.getHourOfDay, jtime.getMinuteOfHour, jtime.getSecondOfMinute,
             jtime.getMillisOfSecond * 1000
-        )        
+        )
 
         if !fields.include?(@timespan_attribute) or fields[@timespan_attribute].nil?
             timespan = @timespan_default
         else
             timespan = fields[@timespan_attribute]
         end
-        
-        trigger = { 
+
+        trigger = {
             :timestamp => timestamp,
             :timespan => timespan
         }
-        
+
         unless @triggers[dirname].include? trigger
             @logger.debug("@triggers: add trigger", :timestamp => timestamp, :timespan => timespan) if @logger.debug?
             @triggers[dirname] << trigger
@@ -218,5 +218,5 @@ class LogStash::Filters::Trigger < LogStash::Filters::Base
                 @last_trigger_times.delete dirname
             end
         end
-    end    
+    end
 end # class LogStash::Filters::Trigger

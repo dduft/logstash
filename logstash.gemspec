@@ -63,7 +63,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "elasticsearch"                    #9Apache 2.0 license)
 
   #Signify deps
-  gem.add_runtime_dependency "filewatch-ext", ["~> 0.1.2"]      #(MIT license)
+  gem.add_runtime_dependency "filewatch-ext", ["~> 0.1.4"]      #(MIT license)
 
   if RUBY_PLATFORM == 'java'
     gem.platform = RUBY_PLATFORM
@@ -105,7 +105,7 @@ Gem::Specification.new do |gem|
   
   #Development Deps
   gem.add_development_dependency "coveralls"
-  gem.add_development_dependency "bluecloth"
+  #gem.add_development_dependency "bluecloth"
 
   #Jenkins Deps
   gem.add_runtime_dependency "ci_reporter"
