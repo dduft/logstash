@@ -14,13 +14,25 @@ class LogStash::Outputs::Http2 < LogStash::Outputs::Base
     config_name "http2"
     milestone 1
 
-    #If sign in is supposed
+    # If sign in is desired
     config :sign_in, :validate => :boolean, :default => false
+
+    # Params to be sent within the body
     config :sign_in_params, :validate => :hash
+
+    # Host-address of the server
     config :host, :validate => :string
+
+    # Port of the server
     config :port, :validate => :number
-    config :path, :validate => :string
+
+    # Root path of the application to get the csrf-cookie
     config :root_path, :validate => :string, :default => "/"
+
+    # Path of the action to be called
+    config :path, :validate => :string
+
+    # Sign-In path of the application to be authenticated
     config :sign_in_path, :validate => :string, :default => "/users/sign_in"
 
     # URL to use

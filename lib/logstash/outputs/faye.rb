@@ -10,10 +10,13 @@ class LogStash::Outputs::Faye < LogStash::Outputs::Base
   config_name "faye"
   milestone 1
 
+  # Faye-channel on to be sent on
   config :channel, :validate => :string
 
+  # Faye-security-token
   config :faye_token, :validate => :string
 
+  # Url of the faye-server
   config :faye_url, :validate => :string, :default => "http://localhost:9292/faye"
 
   public
@@ -43,6 +46,6 @@ class LogStash::Outputs::Faye < LogStash::Outputs::Base
   def teardown
     finished
   end
-end # class LogStash::Outputs::File
+end # class LogStash::Outputs::Faye
 
 

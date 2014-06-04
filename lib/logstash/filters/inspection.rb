@@ -6,8 +6,10 @@ class LogStash::Filters::Inspection < LogStash::Filters::Base
     config_name "inspection"
     milestone 1
 
+    # Inspection interval in secends
     config :inspection_interval, :validate => :number, :default => 600
 
+    # Tag which be added to the event every <inspection_interval> seconds
     config :inspection_tag, :validate => :string, :default => "inspection"
 
     public
