@@ -81,7 +81,6 @@ class LogStash::Outputs::Http2 < LogStash::Outputs::Base
     def register
         require "ftw"
         require "uri"
-        require "securerandom"
         @agent = FTW::Agent.new
 
         if @content_type.nil?
@@ -102,12 +101,6 @@ class LogStash::Outputs::Http2 < LogStash::Outputs::Base
                 @logger.warn "mapping is not supported and will be ignored if message format is used"
             end
         end
-
-        # if @sign_in.nil?
-            # if @url.nil?
-                # raise "message must be set if message format is used"
-            # end
-        # end
 
         @signed_in = false
         @csrf_token = nil
