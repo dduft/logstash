@@ -154,6 +154,10 @@ class LogStash::Outputs::Http2 < LogStash::Outputs::Base
 
             response = @agent.execute(request)
 
+            @signed_in = status_success?(response.status)
+
+            @logger.warn("Response Status #{response.status} for request #{@http_method} to #{@url}") if !status_success?(response.status)
+
         rescue Exception => e
             @logger.warn("Unhandled exception", :request => request, :response => response, :exception => e, :stacktrace => e.backtrace)
         end
@@ -212,7 +216,8 @@ class LogStash::Outputs::Http2 < LogStash::Outputs::Base
 
             set_cookies(response)
 
-            @signed_in = response.status == 200
+            # status 2xx success
+            @signed_in = status_success?(response.status)
         end
     end
 
@@ -224,5 +229,9 @@ class LogStash::Outputs::Http2 < LogStash::Outputs::Base
           request.headers['X-CSRF-Token'] = @csrf_token
           request.headers['X-XSRF-Token'] = @csrf_token
         end
+    end
+
+    def status_success?(status)
+        status >= 200 && status < 300
     end
 end
