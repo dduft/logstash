@@ -40,7 +40,16 @@ class LogStash::Outputs::Faye < LogStash::Outputs::Base
     end
 
     uri = URI.parse(@faye_url)
-    Net::HTTP.post_form(uri, :message => message.to_json)
+    res = Net::HTTP.post_form(uri, :message => message.to_json)
+
+    if res.is_a?(Net::HTTPSuccess)
+      message = JSON.parse(res.body)
+
+      @logger.warn("Faye request was not successfully", message.first) unless message.first['successful']
+    else
+      @logger.warn("Faye response not ok", :http_status => res.code, :message => res.message)
+    end
+
   end
 
   def teardown
